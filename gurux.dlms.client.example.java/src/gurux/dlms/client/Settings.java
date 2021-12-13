@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.nio.charset.Charset;
 
 import gurux.common.GXCmdParameter;
 import gurux.common.GXCommon;
@@ -455,6 +456,44 @@ public class Settings {
                 showHelp();
                 return 1;
             }
+        }
+        if (settings.media == null)
+
+        {
+            showHelp();
+            return 1;
+        }
+        return 0;
+    }
+    static int getFixedParameters(Settings settings) throws IOException {
+        GXNet net = null;
+        // Has user give the custom serial port settings or are the default
+        // values used in mode E.
+        boolean modeEDefaultValues = true;
+        settings.client.setInterfaceType(InterfaceType.WRAPPER);
+        // ln/sn reference config
+        settings.client.setUseLogicalNameReferencing(true);
+        // Debug/Trace config
+        settings.trace = TraceLevel.INFO;
+        // Low authentication password
+        String pw = "tisretem01";
+        Charset charset = Charset.forName("ASCII");
+        settings.client.setPassword(Stringpw.getBytes());
+        // Tcp/ip host address
+        settings.media = new GXNet();
+        net = (GXNet) settings.media;
+        net.setHostName("194.163.161.91");
+        net.setPort(Integer.parseInt(5001));
+        // authentication type config
+        settings.client.setAuthentication(Authentication.valueOfString("LOW"));
+        // client address config
+        settings.client.setClientAddress(Integer.parseInt(17));
+        // server address config
+        if (settings.client.getServerAddress() != 1) {
+            settings.client.setServerAddress(GXDLMSClient.getServerAddress(
+                    settings.client.getServerAddress(), Integer.parseInt(1)));
+        } else {
+            settings.client.setServerAddress(Integer.parseInt(1));
         }
         if (settings.media == null)
 

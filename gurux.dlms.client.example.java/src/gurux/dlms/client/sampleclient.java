@@ -60,7 +60,8 @@ public class sampleclient {
         try {
             ////////////////////////////////////////
             // Handle command line parameters.
-            int ret = Settings.getParameters(args, settings);
+            // int ret = Settings.getParameters(args, settings);
+            int ret = Settings.getFixedParameters(settings);
             if (ret != 0) {
                 System.exit(1);
                 return;
